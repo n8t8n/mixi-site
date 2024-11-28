@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es-us">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Oops! Something went wrong ...</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+     :root{--bg-gradient-start:#1a1a1a;--bg-gradient-end:#2a2a2a;--text-primary:#ffffff;--text-secondary:#cccccc;--card-bg:rgba(255, 255, 255, 0.1);--border-color:rgba(255, 255, 255, 0.2)}*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Arial', sans-serif;background:linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));height:100vh;display:flex;justify-content:center;align-items:center;overflow:hidden;color:var(--text-primary)}.error-container{background:white;border-radius:8px;padding:40px;text-align:center;border:1px solid var(--border-color);box-shadow:0 15px 35px rgba(0, 0, 0, 0.2);max-width:400px;width:90%;position:relative;transform:scale(0.8);opacity:0;animation:pop-in 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) forwards}.error-icon{font-size:6rem;color:var(--text-secondary);margin-bottom:20px;text-shadow:0 0 20px rgba(255, 255, 255, 0.1);animation:subtle-shake 2s infinite}.error-code{font-size:4rem;font-weight:bold;color:var(--text-primary);background:linear-gradient(45deg, #444, #111);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:15px}.error-message{font-size:1.5rem;margin-bottom:15px;color:black;letter-spacing:1px}.error-description{font-size:1rem;color:gray;line-height:1.6}.fas{background:linear-gradient(135deg, #bb12ce, #e50c54);background-clip:text;color:transparent}.back-button{display:inline-block;margin-top:20px;padding:12px 25px;background:linear-gradient(45deg, #333, #111);color:var(--text-primary);text-decoration:none;border-radius:10px;border:1px solid var(--border-color);transition:all 0.3s ease}.back-button:hover{transform:scale(1.01);background:linear-gradient(45deg, #444, #222)}.background-dots{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1;overflow:hidden}.dot{position:absolute;background:rgba(255, 255, 255, 0.02);border-radius:50%;filter: blur(1px);animation:float 10s infinite alternate}@keyframes pop-in{0%{transform:scale(0.8) rotate(-5deg);opacity:0}70%{transform:scale(1.05) rotate(2deg);opacity:0.7}100%{transform:scale(1) rotate(0);opacity:1}}@keyframes subtle-shake{0%,100%{transform:translate(0, 0) rotate(0)}25%{transform:translate(-2px, 2px) rotate(-1deg)}75%{transform:translate(2px, -2px) rotate(1deg)}}@keyframes float{0%{transform:translate(0, 0) scale(0.9)}100%{transform:translate(50px, 50px) scale(1.1)}}
+    </style>
+</head>
+
+<body>
+    <div class="background-dots" id="backgroundDots"></div>
+    <div class="error-container">
+        <div class="error-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div class="error-code" id="errorCode">404</div>
+        <div class="error-message" id="errorMessage">Página no encontrada</div>
+        <p class="error-description" id="errorDescription">Lo siento, la página que está buscando no existe. Por favor,
+            verifique la URL e inténtelo de nuevo.</p>
+        <a href="/" class="back-button">Volver al inicio</a>
+    </div>
+
+    <script>
+     const errorCodeElement=document.getElementById('errorCode');const errorMessageElement=document.getElementById('errorMessage');const errorDescriptionElement=document.getElementById('errorDescription');const urlParams=new URLSearchParams(window.location.search);const errorCode=urlParams.get('code')||404;let errorMessage='Página no encontrada';let errorDescription='Lo siento, la página que está buscando no existe. Por favor, verifique la URL e inténtelo de nuevo.';if(errorCode==='500'){errorMessage='Error interno del servidor';errorDescription='Lo siento, ha ocurrido un error en el servidor. Por favor, inténtelo de nuevo más tarde.'}errorCodeElement.textContent=errorCode;errorMessageElement.textContent=errorMessage;errorDescriptionElement.textContent=errorDescription;function createBackgroundDots(){const container=document.getElementById('backgroundDots');const dotsCount=30;for(let i=0;i<dotsCount;i+=1){const dot=document.createElement('div');dot.classList.add('dot');dot.style.width=`${Math.random()*40+5}px`;dot.style.height=dot.style.width;dot.style.top=`${Math.random()*100}%`;dot.style.left=`${Math.random()*100}%`;dot.style.animationDelay=`${Math.random()*5}s`;container.appendChild(dot)}}
+ createBackgroundDots();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+[
+  {
+    "id": 1,
+    "name": "Ebook: Exito en Atención al Cliente",
+    "description": "Guía práctica para ofrecer una atención al cliente excepcional. Aprende estrategias para fidelizar clientes, resolver problemas eficientemente y construir relaciones duraderas. ¡Mejora la satisfacción de tus clientes y aumenta la lealtad!",
+    "price": 19.99,
+    "imageUrl": "https://img.freepik.com/foto-gratis/representacion-3d-apreton-manos_23-2150896502.jpg"
+
+  },
+  {
+    "id": 2,
+    "name": "Ebook: Ventas Estratégicas: Guía Completa",
+    "description": "Domina las técnicas de ventas más efectivas. Desde la prospección hasta el cierre, este ebook te proporciona las herramientas y estrategias para impulsar tus resultados. ¡Aumenta tus ingresos y alcanza tus metas de ventas!",
+    "price": 29.99,
+    "imageUrl": "https://img.freepik.com/foto-gratis/tecnologia-holograma-ilustrados_23-2151877745.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Ebook: Reduce la Rotura de Clientes: Estrategias Clave",
+    "description": "Descubre cómo reducir la tasa de abandono de tus clientes. Este ebook te ofrece estrategias prácticas para identificar las causas de la rotación y aplicar soluciones efectivas. ¡Mantén a tus clientes satisfechos y aumenta la rentabilidad de tu negocio!",
+    "price": 9.99,
+    "imageUrl": "https://img.freepik.com/foto-gratis/representacion-3d-mano-que-sostiene-forma-corazon_23-2150896592.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Ebook: Inteligencia Artificial en Servicio al Cliente",
+    "description": "Implementa la IA para mejorar la experiencia del cliente. Este ebook te guía en la integración de la IA en tu servicio al cliente, desde chatbots hasta análisis predictivos. ¡Optimiza tus procesos y ofrece un servicio más eficiente y personalizado!",
+    "price": 49.99,
+    "imageUrl": "https://img.freepik.com/free-photo/technology-hologram-illustrated_23-2151877736.jpg"
+  }
+]
