@@ -1,315 +1,163 @@
 <!DOCTYPE html>
-<html lang="es-us">
+<html lang="en" schema.org="WebPage">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="Jonathan A.">
+    <title>WEBP Converter | Jonathan A. | @n8t8n </title>
     <meta name="description"
-        content="Customer Success Specialist | Full-Cycle Sales | Latam Market | Senior Software Sales | B2B Sales Representative | Latam specializing in SaaS, CRM, and WhatsApp Business API solutions. Proven experience in onboarding, customer retention, account management, and driving customer success, linkedin">
+        content="Effortlessly convert and compress your images from JPG, PNG, GIF to WEBP using the power of HTML5 Canvas API.">
     <meta name="keywords"
-        content="n8t8n, Customer Success, Sales, LATAM, SaaS, CRM, WhatsApp Business API, Onboarding, Customer Retention, Account Management, Customer Journey, CSAT, CLTV, Ebooks, Lead Generation, Sales Strategy, Business Development, Customer Support, Jonathan A., CV, Resume, mixi.uno, Linkedin, Google, Meta">
+        content="image compressor, webp converter, image converter, jpg to webp, png to webp, gif to webp">
+    <meta name="author" content="WEBP Converter, Jonathan A.">
     <meta name="robots" content="index, follow">
-    <link rel="stylesheet" href="css/style.css">
-    <meta name="theme-color" content="#e60b54">
-    <link rel="sitemap" type="application/xml" href="https://mixi.uno/sitemap.xml">
-    <title>Jonathan A. - Customer Success & Sales Specialist</title>
-    <meta name="og:title" content="Jonathan A. - Customer Success & Sales Specialist">
-    <meta name="og:description"
-        content="Customer Success Specialist | Full-Cycle Sales | Latam Market | Senior Software Sales | B2B Sales Representative | Latam specializing in SaaS, CRM, and WhatsApp Business API solutions. Linkedin">
-    <meta name="og:type" content="website">
-    <meta name="og:url" content="https://mixi.uno">
-    <meta name="og:image" content="https://mixi.uno/1731029584866.jpg">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Jonathan A. - Customer Success & Sales Specialist">
+    <meta property="og:title" content="WEBP Converter">
+    <meta property="og:description"
+        content="Effortlessly convert and compress your images from JPG, PNG, GIF to WEBP using the power of HTML5 Canvas API.">
+    <meta property="og:image" content="android-chrome-512x512.png">
+    <meta property="og:url" content="https://mixi.uno">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="WEBP Converter">
     <meta name="twitter:description"
-        content="Customer Success Specialist | Full-Cycle Sales | Latam Market | Senior Software Sales | B2B Sales Representative | Latam specializing in SaaS, CRM, and WhatsApp Business API solutions. Linkedin">
-    <meta name="twitter:image" content="https://mixi.uno/1731029584866.jpg">
-    <link rel="manifest" href="resources/pwa/manifest.json">
-    <link rel="icon" type="image/png" sizes="192x192" href="resources/pwa/favicon/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="resources/pwa/favicon/android-chrome-512x512.png">
+        content="Effortlessly convert and compress your images from JPG, PNG, GIF to WEBP using the power of HTML5 Canvas API.">
+    <link rel="icon" type="image/png" href="android-chrome-192x192.png">
+    <script src="https://unpkg.com/vue@3.3.4/dist/vue.global.prod.js"></script>
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="theme-color" content="#ffffff">
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Jonathan A.",
-      "jobTitle": "Customer Success & Sales Specialist",
-      "description": "Customer Success Specialist | Full-Cycle Sales | Latam Market | Senior Software Sales | B2B Sales Representative | Latam specializing in SaaS, CRM, and WhatsApp Business API solutions. Proven experience in onboarding, customer retention, account management, and driving customer success.",
-      "url": "https://mixi.uno",
-      "sameAs": [
-      "https://linkedin.com/in/jonathan-linked-in" 
-    ],
-    "image": "https://mixi.uno/1731029584866.jpg"
-    }
+        {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "WEBP Converter",
+            "description": "Effortlessly convert and compress your images from JPG, PNG, GIF to WEBP using the power of HTML5 Canvas API.",
+            "image": "android-chrome-512x512.png",
+            "url": "https://mixi.uno",
+            "author": {
+                "@type": "Person",
+                "name": "Jonathan A.",
+                "url": "https://linkedin.com/in/jonathan-linked-in"
+            }
+        }
     </script>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <div id="loader" class="loader">
-        <div>Loading...</div>
+
+    <div id="loader" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
     </div>
-    <div id="app">
-        <div v-if="loadingPosts || errorLoadingPosts" class="notification-bar">
 
-            <span v-if="loadingPosts">Loading posts...</span>
-            <span v-else-if="errorLoadingPosts">Error loading posts. Please try again later.</span>
-        </div>
-        <div v-else>
-            <div class="profile-header">
-                <span v-if="showBblMsg" @click="closebblMsg" class="bubble-msg">{{ limitedBblMsg }}</span>
-                <div class="profile-image">
-                    <a class="special-link" href="#"> <img :src="profileImage" width="150"
-                            alt="Jonathan A. Linkedin Profile Picture" @load="imageLoaded($event, 'profile')">
-                    </a>
-                </div>
-                <div class="profile-meta">
-                    <h1 class="username">{{ username }}</h1>
-                    <div class="profile-info">
-                        <p>{{ businessCategory }}</p>
-                    </div>
-                    <div class="profile-description">
-                        <p v-html="description"></p>
-                    </div>
-                    <div class="more-information">
-                        <a role="button" id="accordion-button" @click="toggleAccordion"><strong>Más información
-                                ▾</strong></a>
-                        <div id="accordion-content" v-show="accordionOpen" class="accordion-content"
-                            ref="accordionContent">
-                            <p>{{ typedMoreInformation }}</p>
-                        </div>
-                    </div>
-                    
-                    <div id="location-info" v-if="visitorLocation">
-                        <p>{{ visitorLocation.city }}, {{ visitorLocation.country_name }}</p>
-                    </div>
-                    <div class="profile-buttons">
-                        <a href="https://linkedin.com/in/jonathan-linked-in" target="_blank"><span>Linked</span> <svg
-                                style="vertical-align: sub;" width="18" height="18" xmlns="http://www.w3.org/2000/svg"
-                                viewBox="-5.586 5.664 20 20" xml:space="preserve">
-                                <path
-                                    d="M4.414 5.664c-5.523 0 -10 4.477 -10 10s4.477 10 10 10 10 -4.477 10 -10 -4.477 -10 -10 -10m6.242 16.238c-0.813 0.813 -1.754 1.449 -2.805 1.891 -1.086 0.461 -2.242 0.691 -3.438 0.691 -1.191 0 -2.348 -0.234 -3.438 -0.691 -1.051 -0.445 -1.996 -1.082 -2.805 -1.891 -0.813 -0.813 -1.449 -1.754 -1.891 -2.805C-4.18 18.012 -4.414 16.855 -4.414 15.664s0.234 -2.348 0.691 -3.438c0.445 -1.051 1.082 -1.996 1.891 -2.805 0.816 -0.813 1.758 -1.449 2.809 -1.895C2.066 7.07 3.223 6.836 4.414 6.836s2.348 0.234 3.438 0.691c1.051 0.445 1.996 1.082 2.805 1.891 0.813 0.813 1.449 1.754 1.891 2.805 0.461 1.086 0.691 2.242 0.691 3.438 0 1.191 -0.234 2.348 -0.691 3.438 -0.445 1.051 -1.082 1.996 -1.891 2.805" />
-                                <path
-                                    d="M-0.332 13.609h1.949v6.238H-0.332zM0.602 10.664c-0.719 0 -1.191 0.465 -1.191 1.082 0 0.605 0.457 1.082 1.164 1.082h0.016c0.734 0 1.191 -0.48 1.188 -1.082 -0.016 -0.617 -0.457 -1.082 -1.176 -1.082m6.34 2.887c-1.117 0 -1.816 0.609 -1.945 1.039v-0.98H2.805c0.027 0.52 0 6.238 0 6.238h2.191v-3.371c0 -0.191 -0.008 -0.379 0.047 -0.512 0.148 -0.375 0.473 -0.766 1.055 -0.766 0.762 0 1.105 0.578 1.105 1.422v3.227H9.414v-3.469c0 -1.93 -1.086 -2.828 -2.473 -2.828" />
-                            </svg></a>
-                        <a href="https://github.com/n8t8n" target="_blank"><span>Github</span> <svg
-                                style="vertical-align: sub;" width="18" height="18" xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 0.4 0.4">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M0.199 0A0.199 0.199 0 0 0 0 0.199c0 0.088 0.057 0.163 0.136 0.19 0.01 0.001 0.013 -0.005 0.013 -0.01v-0.034c-0.055 0.012 -0.067 -0.027 -0.067 -0.027 -0.009 -0.023 -0.022 -0.029 -0.022 -0.029 -0.018 -0.012 0.001 -0.012 0.001 -0.012 0.02 0.001 0.031 0.021 0.031 0.021 0.018 0.031 0.046 0.022 0.057 0.017 0.001 -0.013 0.007 -0.022 0.012 -0.027 -0.044 -0.005 -0.091 -0.022 -0.091 -0.099 0 -0.022 0.007 -0.039 0.021 -0.054 -0.001 -0.004 -0.009 -0.024 0.002 -0.051 0 0 0.017 -0.005 0.055 0.021 0.016 -0.005 0.033 -0.006 0.05 -0.006s0.034 0.002 0.05 0.006c0.038 -0.026 0.055 -0.021 0.055 -0.021 0.011 0.027 0.004 0.048 0.002 0.053a0.079 0.079 0 0 1 0.021 0.054c0 0.077 -0.047 0.093 -0.091 0.098 0.007 0.006 0.013 0.018 0.013 0.037v0.055c0 0.005 0.004 0.011 0.013 0.01A0.2 0.2 0 0 0 0.4 0.199C0.399 0.089 0.31 0 0.199 0" />
-                            </svg></a>
-                        <!-- <a href="#" target="_blank"><span>Tech skills? </span> <svg
-                                style="vertical-align: sub;" width="18" height="18" xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 18 18" xml:space="preserve" width="18" height="18">
-                                <path
-                                    d="m16.458 10.602 -2.21 -2.209a0.325 0.325 0 0 0 -0.228 -0.094c-0.085 0 -0.168 0.034 -0.228 0.094l-0.385 0.385c-0.126 0.126 -0.126 0.33 0 0.456l1.596 1.596 -1.596 1.597c-0.126 0.126 -0.126 0.33 0 0.456l0.385 0.386a0.323 0.323 0 0 0 0.228 0.094c0.085 0 0.167 -0.034 0.228 -0.094l2.21 -2.211a0.322 0.322 0 0 0 0.095 -0.228 0.322 0.322 0 0 0 -0.095 -0.228M10.909 6.362l-1.374 0.523 -1.025 -1.363v-0.208c0 -0.827 -0.671 -1.498 -1.498 -1.498h-0.64c-0.496 0 -0.933 0.244 -1.206 0.617L3.281 5.387a0.747 0.747 0 0 0 -0.334 0.342l-1.092 2.273c-0.178 0.371 -0.022 0.815 0.349 0.993a0.741 0.741 0 0 0 0.321 0.074c0.277 0 0.544 -0.156 0.672 -0.422l0.983 -2.045 0.694 -0.351v4.474l0.179 2.223 -3.09 1.67c-0.477 0.258 -0.655 0.854 -0.397 1.331 0.177 0.329 0.516 0.515 0.864 0.515 0.158 0 0.318 -0.038 0.466 -0.118l3.671 -1.985c0.352 -0.19 0.554 -0.575 0.51 -0.972l-0.166 -1.506 1.065 1.918v3.218c0 0.542 0.44 0.982 0.983 0.982 0.542 0 0.982 -0.44 0.982 -0.982v-3.473c0 -0.167 -0.043 -0.331 -0.124 -0.477l-1.307 -2.345v-2.724l0.171 0.228a0.743 0.743 0 0 0 0.595 0.297c0.089 0 0.179 -0.016 0.265 -0.049l1.897 -0.722c0.384 -0.146 0.577 -0.576 0.431 -0.96 -0.146 -0.384 -0.575 -0.578 -0.96 -0.431M6.692 3.48c0.961 0 1.74 -0.779 1.74 -1.74C8.432 0.779 7.653 0 6.692 0c-0.962 0 -1.741 0.779 -1.741 1.74 0 0.961 0.779 1.74 1.741 1.74" />
-                            </svg></a> -->
-                    </div>
-                </div>
-            </div>
+    <div id="content" style="display: none;">
 
-            <nav class="profile-nav">
-                <div v-for="tab in filteredTabs" :key="tab.name"
-                    :class="['profile-nav-item', { active: activeTab === tab.name }]" @click="activeTab = tab.name">
-                    <span v-html="tab.icon"></span> <span>{{ tab.name}}</span>
-                </div>
-            </nav>
+        <div id="drop-area">
+            <div class="m-auto">Click or drag files to start converting your images</div>
+            <input type="file" id="file-input" />
         </div>
 
-        <div v-if="activeTab === 'Posts'">
-            <div v-if="hasPosts" class="content-grid">
-                <div v-for="post in postsToShow" :key="post.id" class="grid-item" @click="selectPost(post.postId)">
-                    <img :src="post.imageUrl" :alt="post.title" @load="imageLoaded($event, 'post', post.id)">
+        <div id="app">
+            <section class="top-hero" aria-labelledby="hero-heading">
+                <h1 id="hero-heading">WEBP Converter</h1>
+                <p class="lead">Hi, I'm Jonathan A., a Sales Executive supporting Customer Success. I'm passionate about exploring JavaScript, like a kid with LEGO, to create tools like this WEBP image converter hosted on Firebase. If you'd like to contact me, you can find me on <a href="https://linkedin.com/in/jonathan-linked-in">LinkedIn</a>.</p>
+            </section>
+
+            <div class="stats">
+                <button @click="toggleView" class="switch-view">
+                    <span style="display: flex;gap: 5px;" v-html="isTableView ? tableIcon : gridIcon"></span>
+                </button>
+                <div class="d-flex align-items-center gap-2">
+                    <svg width="20" height="20" viewBox="0 0 0.375 0.375" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0.263 0.075a0.038 0.038 0 1 0 0 0.075 0.038 0.038 0 0 0 0 -0.075" fill="#404050" />
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M0 0.038A0.038 0.038 0 0 1 0.038 0h0.3A0.038 0.038 0 0 1 0.375 0.038v0.3a0.038 0.038 0 0 1 -0.004 0.018A0.038 0.038 0 0 1 0.338 0.375h-0.3A0.038 0.038 0 0 1 0 0.338zm0.121 0.041 -0.009 -0.009 -0.088 0.088V0.038a0.013 0.013 0 0 1 0.013 -0.013h0.3a0.013 0.013 0 0 1 0.013 0.013V0.25h-0.057L0.121 0.079z"
+                            fill="#404050" />
+                    </svg> <strong>Total Images:</strong> {{ totalImages }}
                 </div>
+                <div class="d-flex align-items-center gap-2 d-none d-md-block">
+                    <svg width="20px" height="20px" viewBox="0 0 0.375 0.375" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M0 0.038A0.038 0.038 0 0 1 0.038 0h0.215a0.038 0.038 0 0 1 0.027 0.011l0.085 0.085A0.038 0.038 0 0 1 0.375 0.123V0.338a0.038 0.038 0 0 1 -0.038 0.038H0.275v-0.088A0.038 0.038 0 0 0 0.238 0.25h-0.1A0.038 0.038 0 0 0 0.1 0.288V0.375H0.038A0.038 0.038 0 0 1 0 0.338z"
+                            fill="#404050" />
+                        <path
+                            d="M0.125 0.375h0.125v-0.088a0.013 0.013 0 0 0 -0.013 -0.013h-0.1a0.013 0.013 0 0 0 -0.013 0.013z"
+                            fill="#404050" />
+                    </svg> <strong>Total Size:</strong> {{ totalSize }} MB
+                </div>
+
             </div>
 
-            <div :class="['modal', { show: showModal }]" @click="showModal ? closeModal() : null">
-                <div class="modal-content" @click.stop="">
-                    <div class="modal-close-button" @click="closeModal"><svg width="20" height="20"
-                            viewBox="-0.088 0 0.476 0.476" xmlns="http://www.w3.org/2000/svg" class="cf-icon-svg">
-                            <path
-                                d="M0.284 0.342a0.026 0.026 0 0 1 -0.036 0.036L0.15 0.28 0.052 0.378A0.026 0.026 0 1 1 0.016 0.342L0.114 0.244 0.016 0.144A0.026 0.026 0 1 1 0.052 0.108l0.098 0.098 0.098 -0.098a0.026 0.026 0 0 1 0.036 0.036L0.186 0.242z" />
-                        </svg></div>
-                    <div class="modal-image-container">
-                        <img v-if="selectedPost" :src="selectedPost.imageUrl" :alt="selectedPost.postMsg"
-                            class="modal-image" ref="modalImage" @load="imageLoadedModal">
-                        <div class="modal-image-placeholder"></div>
-                    </div>
-                    <div class="modal-text-container">
-                        <h3>{{ selectedPost ? selectedPost.title : ''}}</h3>
-                        <div class="modal-date-info" style="display: none;">
-                            <p style="visibility:hidden">{{ selectedPost ? selectedPost.postId : ''}}</p>
-                            <p>{{ selectedPost ? selectedPost.date : ''}}</p>
-                        </div>
-                        <p v-html="selectedPost ? this.formatText(selectedPost.postMsg) : ''"></p>
-                    </div>
-                    
-                    <div class="modal-close-button-container">
-                        <button @click="closeModal">Cerrar</button>
-                    </div>
-                    
-                </div>
-            </div>
-        </div>
-
-        <div class="store-container">
-            <div v-if="activeTab === 'Store' && tabs.find(tab => tab.name === 'Store').visible" class="store-container">
-                <div class="store-tab">
-                    <h3>Tienda</h3>
-                    <p class="store-tab-paragraph">En esta sección ofrecemos ebooks sobre Customer Success. Aprende a
-                        mejorar la experiencia del cliente (CX), el CSAT, y el customer lifetime value (CLTV).
-                        Implementa estrategias de customer success efectivas. Estos recursos te ayudarán a construir una
-                        carrera exitosa en este campo. Ideales para profesionales que buscan una transición a Customer
-                        Success o desean fortalecer sus habilidades. ¡Comienza a construir tu expertise hoy mismo!</p>
-                    <div v-if="loadingCatalog" class="loading-message">Cargando catálogo...</div>
-                    <div v-else-if="errorLoadingCatalog" class="loading-message">Error al cargar el catálogo. Por favor,
-                        intenta de nuevo más tarde.</div>
-                    <div v-else class="product-grid">
-                        <div v-for="product in catalog" :key="product.id" class="product-item">
-                            <div class="product-image">
-                                <img :src="product.imageUrl" :alt="product.name"
-                                    @load="imageLoaded($event, 'product', product.id)">
-
+            <div v-if="!isTableView" class="image-grid">
+                <div v-for="(image, index) in images" :key="index" class="image-card">
+                    <img :src="image.webpImage" :alt="image.name" class="img-fluid">
+                    <div class="image-card-content p-3">
+                        <h5>{{ image.name }}</h5>
+                        <div>
+                            <div>
+                                <p>Original: {{ image.originalSizeMB }} MB</p>
+                                <p>New: {{ image.newSizeMB }} MB</p>
                             </div>
-                            <div class="product-info">
-                                <h4>{{ product.name }}</h4>
-                                <p v-html="product.description"></p>
-                                <p class="product-info-price">Precio: ${{ product.price }}</p>
-                                <button disabled @click="addToCart(product)">Añadir al carrito</button>
+                            <div class="d-flex w-100">
+                                <button @click="removeImage(index)"
+                                    class="rounded-3 btn btn-outline-secondary btn-sm">Remove</button>
+
+                                <button @click="downloadImage(image.webpImage, image.name)"
+                                    class="rounded-3 btn btn-outline-dark btn-sm">Download</button>
                             </div>
                         </div>
-                        <div v-if="catalog.length === 0">No hay productos en el catálogo.</div>
                     </div>
                 </div>
-
-                <div id="cart-display">
-                    <h3>Carrito de Compras</h3>
-                    <ul class="cart-items-wrapped">
-                        <li v-for="(item, index) in cart" :key="item.id">
-                            {{ item.name }} - ${{ item.price }}
-                            <button @click="removeFromCart(index)">Eliminar</button>
-                        </li>
-                    </ul>
-                    <p v-if="cart.length === 0">Tu carrito está vacío.</p>
-                    <p class="cart-total-items-price" v-else>Total: ${{ calculateTotal() }}</p>
-                    <button class="store-buy-it-now" v-if="cart.length > 0" @click="initiateMercadoPago">Comprar
-                        Ahora</button>
-                </div>
             </div>
-        </div>
+           
 
-
-        <div v-if="activeTab === 'Podcast' && tabs.find(tab => tab.name === 'Podcast').visible" class="podcast-tab">
-            <h3>Podcast de Ventas y Customer Success: Youtube</h3>
-            <p class="podcast-tab-paragraph">
-                Algunos vídeos interesantes que pueden ayudarte a optimizar estrategias de
-                <i>onboarding</i>, <i>retención de clientes</i> y <i>gestión de cuentas</i>, cruciales para maximizar el
-                <i>customer journey</i>, el CSAT y el CLTV. Estos videos están en inglés y español y ofrecen información
-                valiosa sobre metodologías ágiles, métricas de rendimiento (KPIs), estrategias de segmentación, y
-                automatización de procesos de ventas. Comparto mis recomendaciones para ayudarte impulsar el
-                crecimiento de tu negocio y mejorar la experiencia del cliente.
-            </p>
-            <h4>10 Best Customer Success Courses and Training Programs for Customer Success Managers</h4>
-            <iframe width="100%" height="315" src="https://www.youtube.com/embed/eRUN4sKlZ4Q"
-                title="YouTube video player" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen></iframe>
-            <h4>How to get into Customer Success</h4>
-            <iframe width="100%" height="315"
-                src="https://www.youtube.com/embed/Cipfi6qDYb8?list=PLBUZBXz3nau5XNyJgwyaEAeIeBdpDArFM"
-                title="YouTube video player" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen></iframe>
-            <h4>What is an API (in 5 minutes)</h4>
-            <iframe width="100%" height="315" src="https://www.youtube.com/embed/ByGJQzlzxQg"
-                title="YouTube video player" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen></iframe>
-            <h4>El Mejor ENTRENAMIENTO DE VENTAS Que Verás | Alex Hormozi Conferencia en Español</h4>
-            <iframe width="100%" height="315" src="https://www.youtube.com/embed/TZw_0ZN5QI8"
-                title="YouTube video player" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen></iframe>
-            <h4>El ABC para crear un proceso Outbound B2B | Herramientas para gestionar un equipo de BDR - SDR</h4>
-            <iframe width="100%" height="315" src="https://www.youtube.com/embed/ymx0AdnYeHs"
-                title="YouTube video player" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen></iframe>
-        </div>
-
-        <div v-if="activeTab === 'Calendar' && tabs.find(tab => tab.name === 'Calendar').visible" class="calendar-tab">
-            <h3> ¿Quieres mejorar la satisfacción del cliente sin
-                afectar la experiencia del cliente? ¡Hablemos! </h3>
-            <p class="calendar-tab-paragraph">Conozco de primera mano las soluciones que realmente impulsan el
-                crecimiento de tu negocio con un rápido retorno de inversión. Ayudé a más de 300 empresas en LATAM a
-                integrar WhatsApp, Messenger, Instagram con herramientas multicanal y flujos automatizados NO CODE para
-                CRMs.
-            </p>
-            <p class="calendar-message" onclick="this.classList.toggle('hovered');">Aprovecha al máximo WhatsApp.
-                Hablemos vía Google Meet en el horario que mejor te convenga <a target="_blank"
-                    href="https://cal.com/franka">¡Agendar una llamada!</a></p>
-        </div>
-        <div v-if="activeTab === 'Contacto' && tabs.find(tab => tab.name === 'Contacto').visible" class="contact-form">
-            <h3>¿Sabes cómo convertirte en Meta Business Partner? ¡Conversemos! </h3>
-            <p class="contact-form-paragraph">Agenda una llamada conmigo y te ayudo con todo el proceso para que puedas
-                aprovechar al máximo el potencial de <strong> WhatsApp Business</strong> Facebook, Instagram como
-                partner oficial. Completa la información a continuación y te llamo.
-            </p>
-
-            <form action="https://formspree.io/f/xnnqgaky" method="POST" @submit="submitForm">
-                <label for="name">Nombre:</label>
-                <input type="text" id="name" name="name" placeholder="Tu Nombre" required>
-                <label for="country">País:</label>
-                <input type="text" id="country" name="country" placeholder="Nombre del país" required>
-                <label for="whatsapp">WhatsApp:</label>
-                <input type="tel" id="whatsapp" name="whatsapp" placeholder="Tu Número de WhatsApp" required>
-                <label for="company">Empresa:</label>
-                <input type="text" id="company" name="company" placeholder="Nombre de tu empresa" required>
-                <label for="when">Mejor momento para llamar:</label>
-                <input type="text" id="when" name="when" placeholder="ej. Lunes a las 3PM (hora Ecuador)" required>
-                <button type="submit" ref="submitButton" :disabled="formSubmitted">{{ submitButtonText }}</button>
-            </form>
-        </div>
-
-
-        <script src="https://sdk.mercadopago.com/js/v2"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js"></script>
-
-        <footer>
-            <div style="display: flex; align-items: center; justify-content: center; position: relative;">
-                <p> {{ username }} - {{ new Date().getFullYear() }} ©
-                    <a href="#" class="special-link" style="text-decoration: none; position: relative;">#1</a>
-
-                </p>
-                <div class="hand-icon"
-                    style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1); opacity: 0; transition: transform 0.3s, opacity 0.3s;">
-                    🖐️
-                </div>
-            </div>
-        </footer>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const specialLinks = document.querySelectorAll('.special-link');
-                const handIcon = document.querySelector('.hand-icon');
-
-                specialLinks.forEach(specialLink => {
-                    specialLink.addEventListener('mouseover', function () {
-                        handIcon.style.transform = 'scale(12)';
-                        handIcon.style.opacity = '1';
-                    });
-
-                    specialLink.addEventListener('mouseout', function () {
-                        handIcon.style.transform = 'scale(1)';
-                        handIcon.style.opacity = '0';
-                    });
+            <table v-if="isTableView" class="mt-4 table-view table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th class="d-none d-md-table-cell">Original Size</th>
+                        <th class="d-none d-md-table-cell">New Size</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(image, index) in images" :key="index">
+                        <td style="width:90px!important"><img :src="image.webpImage" :alt="image.name"
+                                class="img-fluid">
+                        </td>
+                        <td>{{ image.name }}</td>
+                        <td class="d-none d-md-table-cell">{{ image.originalSizeMB }} MB</td>
+                        <td class="d-none d-md-table-cell">{{ image.newSizeMB }} MB</td>
+                        <td>
+                            <button @click="downloadImage(image.webpImage, image.name)"
+                                class="m-1 btn btn-outline-dark rounded-3 btn-sm">⬇</button>
+                            <button @click="removeImage(index)"
+                                class="m-1 btn btn-outline-secondary rounded-3 btn-sm">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <script>
+                 document.addEventListener('DOMContentLoaded', function () {
+                    setTimeout(function () {
+                        document.getElementById('loader').style.display = 'none';
+                        document.getElementById('content').style.display = 'block';
+                    }, 2000); 
                 });
-            });
-        </script>
-        <!-- <script src="js/app.js"></script> -->
-        <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-        <script src="js/app.min.js"></script>
-        <script src="js/vue.global.prod.js"></script>
-    </div>
-    </div>
+            </script>
+            <script defer src="js/app.js"></script>
+        </div>
+        
+        <div class="text-center pb-5 mb-3">
+            <small>Please take a moment to review my <a href="/privacy-policy" target="_blank"><em>Privacy Policy</em></a> and <a href="/terms-of-service" target="_blank"><em>Terms of Service</em></a>. </small>
+        </div>
 
+    </div>
 </body>
 
 </html>

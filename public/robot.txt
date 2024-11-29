@@ -1,3 +1,0 @@
-# Disallow all user agents from accessing the js/app.js file
-User-agent: *
-Disallow: /js/app.js
