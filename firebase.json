@@ -17,11 +17,8 @@
           {
             "key": "X-Frame-Options",
             "value": "SAMEORIGIN"
-          },
-          {
-            "key": "Content-Security-Policy",
-            "value": "default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com;"
           }
+        
         ]
       }
     ],    
@@ -39,25 +36,14 @@
         "destination": "/sitemap.xml"
       },
       {
-        "source": "/tech-skills",
-        "destination": "/resources/tech-skills/index.html"
-      },
-      
-      {
-        "source": "**",
+        "source": "/",
         "destination": "/index.html"
       }
-
     ],
     "redirects": [
       {
-        "source": "/500",
-        "destination": "/error.html?code=500",
-        "type": 302
-      },
-      {
-        "source": "/404",
-        "destination": "/error.html?code=404",
+        "source": "!/**",
+        "destination": "/404.html",
         "type": 301
       }
     ],
