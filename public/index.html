@@ -24,7 +24,7 @@
     <link rel="icon" type="image/png" href="android-chrome-192x192.png">
     <script src="https://unpkg.com/vue@3.3.4/dist/vue.global.prod.js"></script>
     <link rel="manifest" href="site.webmanifest">
-
+    <script defer src="js/app.min.js"></script>
     <meta name="theme-color" content="#ffffff">
     <script type="application/ld+json">
         {
@@ -42,10 +42,12 @@
         }
     </script>
     <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
 </head>
 
-<body>
+<body data-theme="dark">
+    <div id="particles-js"></div>
 
     <div id="loader" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
         <div class="spinner-border" role="status">
@@ -54,69 +56,38 @@
     </div>
 
     <div id="content" style="display: none;">
-
         <div id="drop-area">
-            <div class="m-auto">Click or drag files to start converting your images</div>
+            <div class="m-auto d-flex flex-wrap justify-content-center align-items-center">
+                <span class="upload-text">Upload files </span> <span>⬆</span>
+            </div>
             <input type="file" id="file-input" />
+
         </div>
 
         <div id="app">
             <section class="top-hero" aria-labelledby="hero-heading">
+                <div class="theme-toggle form-check form-switch">
+                    <label class="form-check-label switch" for="theme-toggle-checkbox">
+                        <input type="checkbox" id="theme-toggle-checkbox" class="form-check-input"
+                            @change="toggleTheme">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
                 <h1 id="hero-heading">WEBP Converter</h1>
-                <p class="lead">Hi, I'm Jonathan A., I'm passionate about exploring JavaScript to create tools like this WEBP image converter hosted on Firebase. If you'd like to contact me, you can find me on <a href="https://linkedin.com/in/jonathan-linked-in">LinkedIn</a>.</p>
+                <p v-if="images.length === 0" class="lead">
+                    <strong>Effortlessly</strong> convert and compress your images from JPG, PNG, GIF to WEBP using the
+                    power of HTML5 Canvas API. Perfect for <em>retail</em>, <em>marketplace</em>, and <em>Facebook</em>
+                    users looking to optimize their online presence. 🚀✨
+                </p>
+                <p v-else class="lead">
+                    <strong>Well done! 👍 </strong> You've already uploaded images! 🎉 Now, drag and drop more files to
+                    convert or click the upload button to add more images to the canvas. 👇
+                </p>
             </section>
 
-            <div class="stats">
-                <button @click="toggleView" class="switch-view">
-                    <span style="display: flex;gap: 5px;" v-html="isTableView ? tableIcon : gridIcon"></span>
-                </button>
-                <div class="d-flex align-items-center gap-2">
-                    <svg width="20" height="20" viewBox="0 0 0.375 0.375" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path d="M0.263 0.075a0.038 0.038 0 1 0 0 0.075 0.038 0.038 0 0 0 0 -0.075" fill="#404050" />
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M0 0.038A0.038 0.038 0 0 1 0.038 0h0.3A0.038 0.038 0 0 1 0.375 0.038v0.3a0.038 0.038 0 0 1 -0.004 0.018A0.038 0.038 0 0 1 0.338 0.375h-0.3A0.038 0.038 0 0 1 0 0.338zm0.121 0.041 -0.009 -0.009 -0.088 0.088V0.038a0.013 0.013 0 0 1 0.013 -0.013h0.3a0.013 0.013 0 0 1 0.013 0.013V0.25h-0.057L0.121 0.079z"
-                            fill="#404050" />
-                    </svg> <strong>Total Images:</strong> {{ totalImages }}
-                </div>
-                <div class="d-flex align-items-center gap-2 d-none d-md-block">
-                    <svg width="20px" height="20px" viewBox="0 0 0.375 0.375" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M0 0.038A0.038 0.038 0 0 1 0.038 0h0.215a0.038 0.038 0 0 1 0.027 0.011l0.085 0.085A0.038 0.038 0 0 1 0.375 0.123V0.338a0.038 0.038 0 0 1 -0.038 0.038H0.275v-0.088A0.038 0.038 0 0 0 0.238 0.25h-0.1A0.038 0.038 0 0 0 0.1 0.288V0.375H0.038A0.038 0.038 0 0 1 0 0.338z"
-                            fill="#404050" />
-                        <path
-                            d="M0.125 0.375h0.125v-0.088a0.013 0.013 0 0 0 -0.013 -0.013h-0.1a0.013 0.013 0 0 0 -0.013 0.013z"
-                            fill="#404050" />
-                    </svg> <strong>Total Size:</strong> {{ totalSize }} MB
-                </div>
 
-            </div>
-
-            <div v-if="!isTableView" class="image-grid">
-                <div v-for="(image, index) in images" :key="index" class="image-card">
-                    <img :src="image.webpImage" :alt="image.name" class="img-fluid">
-                    <div class="image-card-content p-3">
-                        <h5>{{ image.name }}</h5>
-                        <div>
-                            <div>
-                                <p>Original: {{ image.originalSizeMB }} MB</p>
-                                <p>New: {{ image.newSizeMB }} MB</p>
-                            </div>
-                            <div class="d-flex w-100">
-                                <button @click="removeImage(index)"
-                                    class="rounded-3 btn btn-outline-secondary btn-sm">Remove</button>
-
-                                <button @click="downloadImage(image.webpImage, image.name)"
-                                    class="rounded-3 btn btn-outline-dark btn-sm">Download</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-           
-
-            <table v-if="isTableView" class="mt-4 table-view table table-striped table-bordered">
+            <!-- // table view -->
+            <table v-if="isTableView && images.length > 0" class="mt-4 table-view table table-primary table-bordered">
                 <thead>
                     <tr>
                         <th>Image</th>
@@ -131,34 +102,239 @@
                         <td style="width:90px!important"><img :src="image.webpImage" :alt="image.name"
                                 class="img-fluid">
                         </td>
-                        <td>{{ image.name }}</td>
+                        <td style="font-size:small!important">{{ image.name }}</td>
                         <td class="d-none d-md-table-cell">{{ image.originalSizeMB }} MB</td>
                         <td class="d-none d-md-table-cell">{{ image.newSizeMB }} MB</td>
                         <td>
                             <button @click="downloadImage(image.webpImage, image.name)"
-                                class="m-1 btn btn-outline-dark rounded-3 btn-sm">⬇</button>
+                                class="m-1 btn btn-outline-primary rounded-3 btn-sm">⬇</button>
                             <button @click="removeImage(index)"
-                                class="m-1 btn btn-outline-secondary rounded-3 btn-sm">Delete</button>
+                                class="m-1 btn btn-outline-danger rounded-3 btn-sm">✖︎</button>
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <script>
-                 document.addEventListener('DOMContentLoaded', function () {
-                    setTimeout(function () {
-                        document.getElementById('loader').style.display = 'none';
-                        document.getElementById('content').style.display = 'block';
-                    }, 2000); 
-                });
-            </script>
-            <script defer src="js/app.js"></script>
-        </div>
-        
-        <div class="text-center pb-5 mb-3">
-            <small>Please take a moment to review my <a href="/privacy-policy" target="_blank"><em>Privacy Policy</em></a> and <a href="/terms-of-service" target="_blank"><em>Terms of Service</em></a>. </small>
-        </div>
 
-    </div>
+            <!-- // grid view -->
+            <div v-if="isGridView && images.length > 0" class="image-grid">
+                <div v-for="(image, index) in images" :key="index" class="image-card">
+                    <img :src="image.webpImage" :alt="image.name" class="img-fluid">
+                    <div class="image-card-content p-3">
+                        <h5>{{ image.name }}</h5>
+                        <div>
+                            <div>
+                                <p>Original: {{ image.originalSizeMB }} MB</p>
+                                <p>New: {{ image.newSizeMB }} MB</p>
+                            </div>
+                            <div class="d-flex w-100">
+                                <button @click="removeImage(index)"
+                                    class="rounded-3 btn btn-outline-secondary btn-sm">Remove</button>
+
+                                <button @click="downloadImage(image.webpImage, image.name)"
+                                    class="rounded-3 btn btn-outline-primary btn-sm">Download</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="faq-webp">
+                <p>
+                    <strong class="strong">Why Use WEBP? 🤔</strong> <br>
+                    WEBP images are up to 26% smaller in file size compared to PNGs and 25-34% smaller compared to
+                    JPEGs. This means faster loading times and better performance on your website or social media pages.
+                    <br><br>
+                    <strong class="strong">How It Works</strong> <br>
+                    Simply drag and drop your images into the drop area, and our converter will handle the rest. No need
+                    for complex software or technical knowledge. <br><br>
+                    <strong class="strong">Supported Formats</strong><br>
+                    We support a wide range of image formats including JPG, PNG, and GIF. Convert them all to WEBP with
+                    ease. <br><br>
+                    <strong class="strong">Is It Free?</strong> <br>
+                    Yes, this tool is completely free to use. Enjoy the benefits of WEBP conversion without any cost.
+                    🎉🎁<br><br>
+
+                </p>
+            </div>
+            <div class="faq-webp">
+                <p>
+                    <strong class="strong">FAQ</strong><br>
+                    <em class="question">Q: What happens to my original images after conversion?</em><br>
+                    A: Your original images remain unchanged. We only create a new WEBP version of your image, leaving
+                    the original intact.<br><br>
+                    <em class="question">Q: Can I convert multiple images at once?</em><br>
+                    A: Yes, you can convert multiple images simultaneously by dragging and dropping them into the
+                    designated area.<br><br>
+                    <em class="question">Q: How do I report a bug or issue with the converter?</em> 🤔<br>
+                    A: Please reach out to me at <a href="mailto:jonathan@n8t8n.uno">jonathan@n8t8n.uno</a> for
+                    assistance or to report any issues with the converter.<br><br>
+                    <em class="question">Q: Is my data safe and private?</em> 🤔<br>
+                    A: Absolutely! This tool uses the Canvas API, which works entirely within your browser. We don't
+                    store any of your images or data on our servers. Feel safe and free to share links to this tool with
+                    others. Please review our <a href="/privacy-policy" target="_blank">Privacy Policy</a> and <a
+                        href="/terms-of-service" target="_blank">Terms of Service</a> for more information.
+
+
+                </p>
+
+
+                <!-- // top bar data -->
+                <div class="stats">
+                    <button @click="toggleView" class="switch-view">
+                        <span style="display: flex;gap: 5px;" v-html="isTableView ? tableIcon : gridIcon"></span>
+                    </button>
+                    <div class="d-flex align-items-center gap-2">
+                        <svg width="20" height="20" viewBox="0 0 0.375 0.375" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0.263 0.075a0.038 0.038 0 1 0 0 0.075 0.038 0.038 0 0 0 0 -0.075"
+                                fill="var(--bs-primary)" />
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M0 0.038A0.038 0.038 0 0 1 0.038 0h0.3A0.038 0.038 0 0 1 0.375 0.038v0.3a0.038 0.038 0 0 1 -0.004 0.018A0.038 0.038 0 0 1 0.338 0.375h-0.3A0.038 0.038 0 0 1 0 0.338zm0.121 0.041 -0.009 -0.009 -0.088 0.088V0.038a0.013 0.013 0 0 1 0.013 -0.013h0.3a0.013 0.013 0 0 1 0.013 0.013V0.25h-0.057L0.121 0.079z"
+                                fill="var(--bs-primary)" />
+                        </svg> <strong>Total Images:</strong> {{ totalImages }}
+                    </div>
+                    <div class="d-flex align-items-center gap-2 d-none d-md-block">
+                        <svg width="20px" height="20px" viewBox="0 0 0.375 0.375" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M0 0.038A0.038 0.038 0 0 1 0.038 0h0.215a0.038 0.038 0 0 1 0.027 0.011l0.085 0.085A0.038 0.038 0 0 1 0.375 0.123V0.338a0.038 0.038 0 0 1 -0.038 0.038H0.275v-0.088A0.038 0.038 0 0 0 0.238 0.25h-0.1A0.038 0.038 0 0 0 0.1 0.288V0.375H0.038A0.038 0.038 0 0 1 0 0.338z"
+                                fill="var(--bs-primary)" />
+                            <path
+                                d="M0.125 0.375h0.125v-0.088a0.013 0.013 0 0 0 -0.013 -0.013h-0.1a0.013 0.013 0 0 0 -0.013 0.013z"
+                                fill="var(--bs-primary)" />
+                        </svg> <strong>Total Size:</strong> {{ totalSize }} MB
+                    </div>
+                </div>
+
+                <!-- // info bar -->
+                <div @click="removeInfoBar" class="info-bar">
+                    <strong>Author:</strong> Jonathan A. - JavaScript Enthusiast <span
+                        class="customer-success-specialist">|
+                        Customer Success Specialist with Remote Sales Expertise in Latin America </span> <span
+                        class="linkedin-profile"> ▶︎ Linkedin Profile: <a
+                            href="https://linkedin.com/in/jonathan-linked-in" style="color: white">@n8t8n </a></span>
+                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        setTimeout(function () {
+                            document.getElementById('loader').style.display = 'none';
+                            document.getElementById('content').style.display = 'block';
+                        }, 2000);
+                    });
+
+                    // Initialize particles
+                    particlesJS("particles-js", {
+                        "particles": {
+                            "number": {
+                                "value": 80,
+                                "density": {
+                                    "enable": true,
+                                    "value_area": 800
+                                }
+                            },
+                            "color": {
+                                "value": ["#0000FF", "#6A0DAD", "#4B0082"]
+                            },
+                            "shape": {
+                                "type": "circle",
+                                "stroke": {
+                                    "width": 0,
+                                    "color": "#000000"
+                                },
+                                "polygon": {
+                                    "nb_sides": 5
+                                },
+                                "image": {
+                                    "src": "img/github.svg",
+                                    "width": 100,
+                                    "height": 100
+                                }
+                            },
+                            "opacity": {
+                                "value": 0.5,
+                                "random": false,
+                                "anim": {
+                                    "enable": false,
+                                    "speed": 1,
+                                    "opacity_min": 0.1,
+                                    "sync": false
+                                }
+                            },
+                            "size": {
+                                "value": 3,
+                                "random": true,
+                                "anim": {
+                                    "enable": false,
+                                    "speed": 40,
+                                    "size_min": 0.1,
+                                    "sync": false
+                                }
+                            },
+                            "line_linked": {
+                                "enable": false,
+                                "distance": 150,
+                                "color": "#ffffff",
+                                "opacity": 0.4,
+                                "width": 1
+                            },
+                            "move": {
+                                "enable": true,
+                                "speed": 6,
+                                "direction": "none",
+                                "random": false,
+                                "straight": false,
+                                "out_mode": "out",
+                                "bounce": false,
+                                "attract": {
+                                    "enable": false,
+                                    "rotateX": 600,
+                                    "rotateY": 1200
+                                }
+                            }
+                        },
+                        "interactivity": {
+                            "detect_on": "canvas",
+                            "events": {
+                                "onhover": {
+                                    "enable": true,
+                                    "mode": "repulse"
+                                },
+                                "onclick": {
+                                    "enable": true,
+                                    "mode": "push"
+                                },
+                                "resize": true
+                            },
+                            "modes": {
+                                "grab": {
+                                    "distance": 400,
+                                    "line_linked": {
+                                        "opacity": 1
+                                    }
+                                },
+                                "bubble": {
+                                    "distance": 400,
+                                    "size": 40,
+                                    "duration": 2,
+                                    "opacity": 8,
+                                    "speed": 3
+                                },
+                                "repulse": {
+                                    "distance": 200,
+                                    "duration": 0.4
+                                },
+                                "push": {
+                                    "particles_nb": 4
+                                },
+                                "remove": {
+                                    "particles_nb": 2
+                                }
+                            }
+                        },
+                        "retina_detect": true
+                    });
+                </script>
+            </div>
+        </div>
 </body>
 
 </html>

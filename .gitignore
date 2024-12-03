@@ -1,2 +1,9 @@
 
 .DS_Store
+public/css/style.css
+public/js/app.js
+firebase.json
+node_modules
+.firebase
+.firebaserc
+public/.gitignore
